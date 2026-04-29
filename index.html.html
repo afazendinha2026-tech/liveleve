@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LiveLeve — Seu cuidado diário</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:#f2d4d4;--rose-mid:#e8b4b4;--rose-dark:#c47a7a;--rose-btn:#d4909090;
+  --beige:#f7f3ee;--beige-mid:#ede6db;--beige-dark:#b8a99a;
+  --cream:#fdfaf7;--white:#ffffff;
+  --text:#3a2f2f;--text-muted:#7a6a6a;--text-light:#b8a99a;
+  --green:#4a7c59;--green-light:#e8f4ec;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:var(--white);border-bottom:1px solid var(--beige-mid);position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--text);cursor:pointer}
+.nav-logo span{color:var(--rose-dark)}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{padding:8px 14px;border:none;background:none;font-size:13px;color:var(--text-muted);cursor:pointer;border-radius:20px;font-family:'DM Sans',sans-serif;transition:all .2s}
+.nav-tab:hover{background:var(--beige);color:var(--text)}
+.nav-tab.active{background:var(--rose);color:var(--rose-dark);font-weight:500}
+.nav-plan{background:var(--rose-dark);color:var(--white);border:none;padding:8px 16px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500}
+
+/* SCREENS */
+.screen{display:none;padding:28px 24px;max-width:520px;margin:0 auto}
+.screen.active{display:block}
+
+/* LANDING */
+.screen-landing{max-width:100%;padding:0}
+.hero{text-align:center;padding:80px 24px 60px;background:var(--white);border-bottom:1px solid var(--beige-mid)}
+.hero-eyebrow{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--rose-dark);font-weight:500;margin-bottom:16px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;line-height:1.15;color:var(--text);margin-bottom:20px}
+.hero-title em{font-style:italic;color:var(--rose-dark)}
+.hero-sub{font-size:16px;color:var(--text-muted);line-height:1.7;max-width:460px;margin:0 auto 36px}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--rose-dark);color:var(--white);border:none;padding:14px 28px;border-radius:30px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .2s}
+.btn-primary:hover{opacity:.88}
+.btn-secondary{background:none;color:var(--rose-dark);border:1.5px solid var(--rose-mid);padding:13px 28px;border-radius:30px;font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-secondary:hover{background:var(--rose);border-color:var(--rose-dark)}
+
+.features-section{padding:64px 24px;max-width:900px;margin:0 auto}
+.section-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--rose-dark);font-weight:500;margin-bottom:8px;text-align:center}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;text-align:center;margin-bottom:48px}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:64px}
+.feature-card{background:var(--white);border:1px solid var(--beige-mid);border-radius:16px;padding:24px}
+.feature-icon{width:40px;height:40px;background:var(--rose);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px}
+.feature-title{font-weight:500;font-size:15px;margin-bottom:6px}
+.feature-desc{font-size:13px;color:var(--text-muted);line-height:1.6}
+
+.plans-section{background:var(--white);border-top:1px solid var(--beige-mid);border-bottom:1px solid var(--beige-mid);padding:64px 24px}
+.plans-inner{max-width:700px;margin:0 auto}
+.plans-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.plan-card{border:1.5px solid var(--beige-mid);border-radius:20px;padding:28px;background:var(--cream)}
+.plan-card.premium{border-color:var(--rose-dark);background:var(--white)}
+.plan-badge{font-size:11px;background:var(--rose);color:var(--rose-dark);padding:4px 10px;border-radius:20px;font-weight:500;display:inline-block;margin-bottom:12px}
+.plan-badge.hot{background:var(--rose-dark);color:var(--white)}
+.plan-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:6px}
+.plan-price{font-size:32px;font-weight:500;color:var(--rose-dark);margin-bottom:4px}
+.plan-price span{font-size:14px;font-weight:400;color:var(--text-muted)}
+.plan-items{margin-top:20px;display:flex;flex-direction:column;gap:8px}
+.plan-item{font-size:13px;color:var(--text-muted);display:flex;gap:8px}
+.plan-item.ok{color:var(--text)}
+.plan-item::before{content:"✓";color:var(--green);font-weight:500;flex-shrink:0}
+.plan-item.no{color:var(--text-light)}
+.plan-item.no::before{content:"—";color:var(--beige-dark)}
+.plan-cta{width:100%;margin-top:24px;padding:13px;border-radius:30px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all .2s}
+.plan-cta.free{background:var(--beige-mid);color:var(--text)}
+.plan-cta.free:hover{background:var(--rose)}
+.plan-cta.paid{background:var(--rose-dark);color:var(--white)}
+.plan-cta.paid:hover{opacity:.88}
+
+.footer-land{text-align:center;padding:40px 24px;color:var(--text-muted);font-size:13px}
+
+/* APP HOME */
+.greeting{margin-bottom:24px}
+.greeting-hello{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300}
+.greeting-date{font-size:13px;color:var(--text-muted);margin-top:2px}
+
+.profile-chip{display:inline-flex;align-items:center;gap:6px;background:var(--rose);color:var(--rose-dark);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;margin-bottom:20px}
+
+.day-card{background:var(--white);border:1px solid var(--beige-mid);border-radius:20px;padding:20px;margin-bottom:16px}
+.day-card-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:500;margin-bottom:14px}
+.action-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--beige);cursor:pointer}
+.action-item:last-child{border-bottom:none;padding-bottom:0}
+.action-check{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--beige-dark);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
+.action-check.done{background:var(--rose-dark);border-color:var(--rose-dark);color:var(--white);font-size:12px}
+.action-info{flex:1}
+.action-title{font-size:14px;font-weight:500;margin-bottom:2px;transition:color .2s}
+.action-title.done{color:var(--text-muted);text-decoration:line-through}
+.action-cat{font-size:11px;color:var(--text-muted)}
+.action-cat-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px}
+.cat-hidratacao{background:#7ab8d4}
+.cat-movimento{background:#7ab894}
+.cat-alimentacao{background:#d4a87a}
+.cat-autocuidado{background:#d47ab0}
+
+.progress-bar-wrap{background:var(--beige);border-radius:20px;height:6px;margin-top:4px;overflow:hidden}
+.progress-bar{background:var(--rose-dark);height:100%;border-radius:20px;transition:width .4s}
+
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.stat-mini{background:var(--white);border:1px solid var(--beige-mid);border-radius:14px;padding:14px;text-align:center}
+.stat-num{font-size:22px;font-weight:500;color:var(--rose-dark)}
+.stat-label{font-size:11px;color:var(--text-muted);margin-top:2px}
+
+/* ALIMENTAÇÃO */
+.food-tabs{display:flex;gap:8px;margin-bottom:20px}
+.food-tab{padding:8px 16px;border-radius:20px;border:1px solid var(--beige-mid);font-size:13px;cursor:pointer;background:none;font-family:'DM Sans',sans-serif;color:var(--text-muted);transition:all .2s}
+.food-tab.active{background:var(--rose-dark);color:var(--white);border-color:var(--rose-dark)}
+
+.food-section{margin-bottom:20px}
+.food-section-title{font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+.food-list{display:flex;flex-direction:column;gap:6px}
+.food-item{background:var(--white);border:1px solid var(--beige-mid);border-radius:12px;padding:12px 14px;font-size:14px}
+.food-item .food-name{font-weight:500;margin-bottom:2px}
+.food-item .food-why{font-size:12px;color:var(--text-muted)}
+.food-item.avoid{border-left:3px solid #e8a0a0}
+.food-item.ok{border-left:3px solid #a0c8a0}
+
+.meal-card{background:var(--white);border:1px solid var(--beige-mid);border-radius:14px;padding:16px;margin-bottom:10px}
+.meal-time{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--rose-dark);font-weight:500;margin-bottom:6px}
+.meal-name{font-size:14px;font-weight:500;margin-bottom:4px}
+.meal-desc{font-size:13px;color:var(--text-muted);line-height:1.5}
+
+/* CHECK-IN */
+.checkin-section{margin-bottom:24px}
+.checkin-label{font-size:13px;font-weight:500;margin-bottom:10px;color:var(--text)}
+.scale-row{display:flex;gap:8px}
+.scale-btn{flex:1;padding:12px 4px;border:1.5px solid var(--beige-mid);border-radius:12px;background:none;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-muted);font-family:'DM Sans',sans-serif;transition:all .2s;text-align:center}
+.scale-btn:hover{border-color:var(--rose-mid);background:var(--rose)}
+.scale-btn.sel{background:var(--rose-dark);color:var(--white);border-color:var(--rose-dark)}
+.checkin-sub{font-size:11px;color:var(--text-muted);margin-top:4px;display:flex;justify-content:space-between}
+
+.checkin-textarea{width:100%;border:1.5px solid var(--beige-mid);border-radius:12px;padding:12px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);resize:none;outline:none}
+.checkin-textarea:focus{border-color:var(--rose-dark)}
+
+.btn-checkin{width:100%;padding:15px;background:var(--rose-dark);color:var(--white);border:none;border-radius:30px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:8px;transition:opacity .2s}
+.btn-checkin:hover{opacity:.88}
+.checkin-success{text-align:center;padding:32px 20px;background:var(--green-light);border-radius:16px;margin-top:16px;display:none}
+.checkin-success.show{display:block}
+.checkin-success-icon{font-size:32px;margin-bottom:12px}
+.checkin-success-msg{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:6px}
+.checkin-success-sub{font-size:13px;color:var(--text-muted)}
+
+/* PROGRESSO */
+.prog-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:24px}
+.prog-day{text-align:center}
+.prog-day-name{font-size:10px;color:var(--text-muted);margin-bottom:4px}
+.prog-day-circle{width:36px;height:36px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500}
+.prog-day-circle.done{background:var(--rose-dark);color:var(--white)}
+.prog-day-circle.partial{background:var(--rose);color:var(--rose-dark)}
+.prog-day-circle.empty{background:var(--beige-mid);color:var(--text-muted)}
+.prog-day-circle.today{border:2px solid var(--rose-dark);background:var(--rose);color:var(--rose-dark)}
+
+.chart-wrap{background:var(--white);border:1px solid var(--beige-mid);border-radius:16px;padding:20px;margin-bottom:16px}
+.chart-title{font-size:13px;font-weight:500;margin-bottom:16px;color:var(--text-muted)}
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:100px}
+.chart-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.chart-bar{width:100%;background:var(--rose);border-radius:4px 4px 0 0;transition:height .4s}
+.chart-bar-label{font-size:10px;color:var(--text-muted)}
+
+.insight-card{background:var(--rose);border-radius:14px;padding:16px;margin-bottom:10px}
+.insight-title{font-size:13px;font-weight:500;color:var(--rose-dark);margin-bottom:4px}
+.insight-text{font-size:13px;color:var(--text);line-height:1.5}
+
+/* PERFIL/PLANO */
+.plan-current{background:var(--white);border:1.5px solid var(--rose-mid);border-radius:16px;padding:20px;margin-bottom:16px}
+.plan-current-badge{font-size:11px;background:var(--rose);color:var(--rose-dark);padding:4px 10px;border-radius:20px;font-weight:500;display:inline-block;margin-bottom:8px}
+.upgrade-card{background:var(--rose-dark);color:var(--white);border-radius:16px;padding:20px;margin-bottom:16px}
+.upgrade-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:4px}
+.upgrade-sub{font-size:13px;opacity:.85;margin-bottom:16px}
+.upgrade-price{font-size:28px;font-weight:500;margin-bottom:16px}
+.upgrade-price span{font-size:14px;font-weight:400;opacity:.75}
+.btn-upgrade{width:100%;padding:13px;background:var(--white);color:var(--rose-dark);border:none;border-radius:30px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .2s}
+.btn-upgrade:hover{opacity:.9}
+
+/* ONBOARDING */
+.onboarding-wrap{max-width:440px;margin:0 auto}
+.ob-step{display:none}
+.ob-step.active{display:block}
+.ob-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;margin-bottom:8px}
+.ob-sub{font-size:14px;color:var(--text-muted);margin-bottom:28px;line-height:1.6}
+.ob-options{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.ob-opt{padding:14px 18px;border:1.5px solid var(--beige-mid);border-radius:14px;cursor:pointer;font-size:14px;color:var(--text);background:var(--white);font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s}
+.ob-opt:hover{border-color:var(--rose-mid);background:var(--rose)}
+.ob-opt.sel{border-color:var(--rose-dark);background:var(--rose);font-weight:500}
+.ob-progress{display:flex;gap:6px;margin-bottom:28px}
+.ob-dot{height:4px;flex:1;border-radius:4px;background:var(--beige-mid);transition:background .3s}
+.ob-dot.done{background:var(--rose-dark)}
+.ob-nav{display:flex;gap:10px}
+.btn-ob-back{flex:1;padding:13px;border:1.5px solid var(--beige-mid);border-radius:30px;background:none;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text-muted)}
+.btn-ob-next{flex:2;padding:13px;border:none;background:var(--rose-dark);color:var(--white);border-radius:30px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.ob-result{text-align:center;padding:20px 0}
+.ob-result-icon{width:80px;height:80px;background:var(--rose);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px}
+.ob-result-profile{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;margin-bottom:8px}
+.ob-result-desc{font-size:14px;color:var(--text-muted);line-height:1.6;margin-bottom:28px}
+
+/* UTIL */
+.page-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px}
+.lock-badge{display:inline-flex;align-items:center;gap:4px;background:var(--beige-mid);color:var(--text-muted);font-size:11px;padding:4px 10px;border-radius:20px;margin-left:8px;vertical-align:middle}
+.tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:500}
+.tag.leve{background:#fdf0f0;color:#c47a7a}
+.tag.moderado{background:#f5ece6;color:#a07850}
+.tag.avancado{background:#ede6f5;color:#8060a0}
+
+@media(max-width:600px){
+  .plans-grid{grid-template-columns:1fr}
+  .hero-title{font-size:36px}
+  .features-grid{grid-template-columns:1fr 1fr}
+  .nav-tabs{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo" onclick="showScreen('landing')">Live<span>Leve</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab" onclick="showScreen('home')">Meu dia</button>
+    <button class="nav-tab" onclick="showScreen('food')">Alimentação</button>
+    <button class="nav-tab" onclick="showScreen('checkin')">Check-in</button>
+    <button class="nav-tab" onclick="showScreen('progress')">Progresso</button>
+    <button class="nav-tab" onclick="showScreen('profile')">Perfil</button>
+  </div>
+  <button class="nav-plan" onclick="showScreen('profile')">★ Premium — R$ 24,90</button>
+</nav>
+
+<!-- LANDING PAGE -->
+<div id="screen-landing" class="screen-landing active">
+  <div class="hero">
+    <div class="hero-eyebrow">Para mulheres com lipedema</div>
+    <h1 class="hero-title">Cuide do seu corpo<br>com <em>gentileza</em> e rotina</h1>
+    <p class="hero-sub">Rotina diária guiada, alimentação anti-inflamatória e acompanhamento leve — sem promessas médicas, só apoio real no dia a dia.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="showScreen('onboarding')">Começar gratuitamente</button>
+      <button class="btn-secondary" onclick="showScreen('home')">Ver o app</button>
+    </div>
+  </div>
+
+  <div class="features-section">
+    <div class="section-label">O que você encontra</div>
+    <div class="section-title">Tudo que você precisa, em um lugar só</div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💧</div>
+        <div class="feature-title">Rotina diária guiada</div>
+        <div class="feature-desc">Ações simples e claras para cada momento do seu dia, adaptadas ao seu perfil.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🫚</div>
+        <div class="feature-title">Alimentação anti-inflamatória</div>
+        <div class="feature-desc">Listas prontas do que priorizar e o que evitar. Sugestões de refeições para cada perfil.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Check-in diário</div>
+        <div class="feature-desc">Registre inchaço, dor e energia em 2 minutos. Veja sua evolução ao longo do tempo.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌿</div>
+        <div class="feature-title">Seu perfil personalizado</div>
+        <div class="feature-desc">Questionário rápido que classifica sua rotina em Leve, Moderado ou Avançado.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="plans-section">
+    <div class="plans-inner">
+      <div class="section-label">Planos</div>
+      <div class="section-title">Comece grátis, evolua no seu tempo</div>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-badge">Gratuito</div>
+          <div class="plan-name">Essencial</div>
+          <div class="plan-price">R$ 0 <span>/sempre</span></div>
+          <div class="plan-items">
+            <div class="plan-item ok">Questionário e perfil personalizado</div>
+            <div class="plan-item ok">3 ações diárias guiadas</div>
+            <div class="plan-item ok">Lista básica de alimentos</div>
+            <div class="plan-item ok">Check-in diário completo</div>
+            <div class="plan-item ok">Histórico dos últimos 7 dias</div>
+            <div class="plan-item no">Rotina completa (6–10 ações)</div>
+            <div class="plan-item no">Cardápio semanal completo</div>
+            <div class="plan-item no">Gráfico de progresso</div>
+            <div class="plan-item no">Lembretes configuráveis</div>
+          </div>
+          <button class="plan-cta free" onclick="showScreen('onboarding')">Criar conta grátis</button>
+        </div>
+        <div class="plan-card premium">
+          <div class="plan-badge hot">★ Mais popular</div>
+          <div class="plan-name">Premium</div>
+          <div class="plan-price">R$ 24,90 <span>/mês</span></div>
+          <div class="plan-items">
+            <div class="plan-item ok">Tudo do plano gratuito</div>
+            <div class="plan-item ok">Rotina completa (6–10 ações/dia)</div>
+            <div class="plan-item ok">Cardápio semanal anti-inflamatório</div>
+            <div class="plan-item ok">Gráfico de progresso e histórico</div>
+            <div class="plan-item ok">Lembretes de hidratação e check-in</div>
+            <div class="plan-item ok">Sugestões de refeições por refeição</div>
+            <div class="plan-item ok">Conteúdo educativo semanal</div>
+            <div class="plan-item ok">Cancele quando quiser</div>
+          </div>
+          <button class="plan-cta paid" onclick="showScreen('onboarding')">Começar premium</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-land">
+    <p>LiveLeve não é um serviço médico. Consulte sempre sua médica para diagnóstico e tratamento.</p>
+    <p style="margin-top:8px">© 2025 LiveLeve · Política de Privacidade · Termos de Uso</p>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="screen-onboarding" class="screen">
+  <div class="onboarding-wrap">
+    <div class="ob-progress">
+      <div class="ob-dot done" id="dot1"></div>
+      <div class="ob-dot" id="dot2"></div>
+      <div class="ob-dot" id="dot3"></div>
+      <div class="ob-dot" id="dot4"></div>
+    </div>
+
+    <div class="ob-step active" id="ob1">
+      <div class="ob-title">Bem-vinda ao LiveLeve ✿</div>
+      <div class="ob-sub">Vamos criar sua rotina personalizada. São só 4 perguntinhas rápidas.</div>
+      <div class="ob-title" style="font-size:20px;margin-bottom:12px">Qual é sua faixa de idade?</div>
+      <div class="ob-options">
+        <button class="ob-opt" onclick="selectOpt(this,'idade','18-25')">18 – 25 anos</button>
+        <button class="ob-opt" onclick="selectOpt(this,'idade','26-35')">26 – 35 anos</button>
+        <button class="ob-opt" onclick="selectOpt(this,'idade','36-45')">36 – 45 anos</button>
+        <button class="ob-opt" onclick="selectOpt(this,'idade','46-55')">46 – 55 anos</button>
+        <button class="ob-opt" onclick="selectOpt(this,'idade','56+')">56 anos ou mais</button>
+      </div>
+      <div class="ob-nav">
+        <button class="btn-ob-next" onclick="obNext(2)">Continuar →</button>
+      </div>
+    </div>
+
+    <div class="ob-step" id="ob2">
+      <div class="ob-title">Como você se move no dia a dia?</div>
+      <div class="ob-sub">Não tem certo ou errado — seja honesta consigo mesma.</div>
+      <div class="ob-options">
+        <button class="ob-opt" onclick="selectOpt(this,'atividade','sedentaria')">Fico bastante parada — trabalho sentada, pouco movimento</button>
+        <button class="ob-opt" onclick="selectOpt(this,'atividade','pouco-ativa')">Me movimento um pouco — caminhadas ocasionais</button>
+        <button class="ob-opt" onclick="selectOpt(this,'atividade','ativa')">Me exercito regularmente — pelo menos 3x por semana</button>
+      </div>
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obNext(1)">← Voltar</button>
+        <button class="btn-ob-next" onclick="obNext(3)">Continuar →</button>
+      </div>
+    </div>
+
+    <div class="ob-step" id="ob3">
+      <div class="ob-title">Como estão seus sintomas atualmente?</div>
+      <div class="ob-sub">Pense nos últimos 30 dias.</div>
+      <div class="ob-options">
+        <button class="ob-opt" onclick="selectOpt(this,'sintomas','leve')">Leve — inchaço e desconforto ocasionais</button>
+        <button class="ob-opt" onclick="selectOpt(this,'sintomas','moderado')">Moderado — presente com frequência, afeta meu dia</button>
+        <button class="ob-opt" onclick="selectOpt(this,'sintomas','avancado')">Intenso — dor frequente, inchaço constante</button>
+      </div>
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obNext(2)">← Voltar</button>
+        <button class="btn-ob-next" onclick="obNext(4)">Continuar →</button>
+      </div>
+    </div>
+
+    <div class="ob-step" id="ob4">
+      <div class="ob-title">Você já faz algum destes cuidados?</div>
+      <div class="ob-sub">Selecione o que se aplica.</div>
+      <div class="ob-options">
+        <button class="ob-opt" onclick="selectOpt(this,'cuidados','drenagem')">Faço drenagem linfática</button>
+        <button class="ob-opt" onclick="selectOpt(this,'cuidados','meia')">Uso meia de compressão</button>
+        <button class="ob-opt" onclick="selectOpt(this,'cuidados','nenhum')">Ainda não faço nenhum destes</button>
+        <button class="ob-opt" onclick="selectOpt(this,'cuidados','ambos')">Faço os dois</button>
+      </div>
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obNext(3)">← Voltar</button>
+        <button class="btn-ob-next" onclick="calcProfile()">Ver meu perfil →</button>
+      </div>
+    </div>
+
+    <div class="ob-step" id="ob-result">
+      <div class="ob-result">
+        <div class="ob-result-icon" id="result-icon">🌿</div>
+        <div class="ob-result-profile" id="result-profile">Perfil Moderado</div>
+        <div class="ob-result-desc" id="result-desc">Sua rotina foi preparada com cuidado para o seu momento. Você vai ter ações estruturadas, sugestões anti-inflamatórias e lembretes no horário certo.</div>
+        <button class="btn-primary" style="width:100%" onclick="showScreen('home')">Entrar no app →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOME / MEU DIA -->
+<div id="screen-home" class="screen">
+  <div class="greeting">
+    <div class="greeting-hello">Bom dia, Ana ✿</div>
+    <div class="greeting-date" id="today-date"></div>
+  </div>
+
+  <div class="profile-chip" id="profile-chip">
+    <span>&#9670;</span> <span id="chip-text">Perfil Moderado</span>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-mini"><div class="stat-num" id="actions-done">0</div><div class="stat-label">ações feitas</div></div>
+    <div class="stat-mini"><div class="stat-num">7</div><div class="stat-label">dias seguidos</div></div>
+    <div class="stat-mini"><div class="stat-num">1.4L</div><div class="stat-label">água hoje</div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-card-title">Seu dia hoje</div>
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:4px">
+        <span id="prog-label">0 de 6 concluídas</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+    </div>
+    <div id="actions-list"></div>
+  </div>
+
+  <div class="day-card" style="background:var(--rose);border-color:var(--rose-mid)">
+    <div style="font-size:13px;font-weight:500;color:var(--rose-dark);margin-bottom:6px">Dica do dia</div>
+    <div style="font-size:13px;color:var(--text);line-height:1.6">Elevar as pernas por 10–15 minutos depois do movimento ajuda muito a reduzir o acúmulo de líquido. Experimente hoje!</div>
+  </div>
+</div>
+
+<!-- ALIMENTAÇÃO -->
+<div id="screen-food" class="screen">
+  <div class="page-title">Alimentação</div>
+  <div class="page-sub">Guia para o seu perfil moderado</div>
+
+  <div class="food-tabs">
+    <button class="food-tab active" onclick="foodTab(this,'evitar')">Evitar</button>
+    <button class="food-tab" onclick="foodTab(this,'priorizar')">Priorizar</button>
+    <button class="food-tab" onclick="foodTab(this,'refeicoes')">Refeições <span class="lock-badge">★</span></button>
+  </div>
+
+  <div id="food-evitar">
+    <div class="food-section-title">Estes alimentos podem intensificar os sintomas</div>
+    <div class="food-list" id="list-evitar"></div>
+  </div>
+  <div id="food-priorizar" style="display:none">
+    <div class="food-section-title">Priorize estes no seu dia a dia</div>
+    <div class="food-list" id="list-priorizar"></div>
+  </div>
+  <div id="food-refeicoes" style="display:none">
+    <div style="background:var(--beige-mid);border-radius:14px;padding:20px;text-align:center;margin-bottom:16px">
+      <div style="font-size:20px;margin-bottom:8px">★</div>
+      <div style="font-weight:500;margin-bottom:4px">Funcionalidade Premium</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Cardápio semanal completo com sugestões por refeição</div>
+      <button class="btn-primary" onclick="showScreen('profile')">Assinar por R$ 24,90/mês</button>
+    </div>
+    <div class="meal-card"><div class="meal-time">Café da manhã</div><div class="meal-name">Smoothie anti-inflamatório</div><div class="meal-desc">Leite de amêndoas + espinafre + mirtilo + linhaça moída. Rápido, nutritivo e sem açúcar.</div></div>
+    <div class="meal-card" style="opacity:.5;pointer-events:none"><div class="meal-time">Almoço</div><div class="meal-name">🔒 Disponível no Premium</div></div>
+    <div class="meal-card" style="opacity:.5;pointer-events:none"><div class="meal-time">Jantar</div><div class="meal-name">🔒 Disponível no Premium</div></div>
+  </div>
+</div>
+
+<!-- CHECK-IN -->
+<div id="screen-checkin" class="screen">
+  <div class="page-title">Check-in de hoje</div>
+  <div class="page-sub">Como você está se sentindo agora?</div>
+
+  <div class="checkin-section">
+    <div class="checkin-label">Nível de inchaço hoje</div>
+    <div class="scale-row">
+      <button class="scale-btn" onclick="selectScale(this,'inchaco',1)">1</button>
+      <button class="scale-btn" onclick="selectScale(this,'inchaco',2)">2</button>
+      <button class="scale-btn" onclick="selectScale(this,'inchaco',3)">3</button>
+      <button class="scale-btn" onclick="selectScale(this,'inchaco',4)">4</button>
+      <button class="scale-btn" onclick="selectScale(this,'inchaco',5)">5</button>
+    </div>
+    <div class="checkin-sub"><span>Sem inchaço</span><span>Muito inchada</span></div>
+  </div>
+
+  <div class="checkin-section">
+    <div class="checkin-label">Nível de dor</div>
+    <div class="scale-row">
+      <button class="scale-btn" onclick="selectScale(this,'dor',1)">1</button>
+      <button class="scale-btn" onclick="selectScale(this,'dor',2)">2</button>
+      <button class="scale-btn" onclick="selectScale(this,'dor',3)">3</button>
+      <button class="scale-btn" onclick="selectScale(this,'dor',4)">4</button>
+      <button class="scale-btn" onclick="selectScale(this,'dor',5)">5</button>
+    </div>
+    <div class="checkin-sub"><span>Sem dor</span><span>Dor intensa</span></div>
+  </div>
+
+  <div class="checkin-section">
+    <div class="checkin-label">Nível de energia</div>
+    <div class="scale-row">
+      <button class="scale-btn" onclick="selectScale(this,'energia',1)">1</button>
+      <button class="scale-btn" onclick="selectScale(this,'energia',2)">2</button>
+      <button class="scale-btn" onclick="selectScale(this,'energia',3)">3</button>
+      <button class="scale-btn" onclick="selectScale(this,'energia',4)">4</button>
+      <button class="scale-btn" onclick="selectScale(this,'energia',5)">5</button>
+    </div>
+    <div class="checkin-sub"><span>Sem energia</span><span>Muita energia</span></div>
+  </div>
+
+  <div class="checkin-section">
+    <div class="checkin-label">Como está seu humor?</div>
+    <div class="scale-row">
+      <button class="scale-btn" onclick="selectScale(this,'humor',1)" style="font-size:18px">😔</button>
+      <button class="scale-btn" onclick="selectScale(this,'humor',2)" style="font-size:18px">😐</button>
+      <button class="scale-btn" onclick="selectScale(this,'humor',3)" style="font-size:18px">🙂</button>
+      <button class="scale-btn" onclick="selectScale(this,'humor',4)" style="font-size:18px">😊</button>
+    </div>
+  </div>
+
+  <div class="checkin-section">
+    <div class="checkin-label">Algo que queira anotar? (opcional)</div>
+    <textarea class="checkin-textarea" rows="3" placeholder="Ex: comi fora, dormi mal, muito estressada..."></textarea>
+  </div>
+
+  <button class="btn-checkin" onclick="submitCheckin()">Salvar meu check-in</button>
+
+  <div class="checkin-success" id="checkin-ok">
+    <div class="checkin-success-icon">🌿</div>
+    <div class="checkin-success-msg">Check-in registrado!</div>
+    <div class="checkin-success-sub">Obrigada por cuidar de você hoje. Cada registro conta.</div>
+  </div>
+</div>
+
+<!-- PROGRESSO -->
+<div id="screen-progress" class="screen">
+  <div class="page-title">Meu progresso</div>
+  <div class="page-sub">Últimos 7 dias</div>
+
+  <div class="day-card">
+    <div class="day-card-title">Sequência da semana</div>
+    <div class="prog-week" id="prog-week"></div>
+  </div>
+
+  <div class="stats-row" style="margin-bottom:16px">
+    <div class="stat-mini"><div class="stat-num">7</div><div class="stat-label">dias seguidos</div></div>
+    <div class="stat-mini"><div class="stat-num">3.2</div><div class="stat-label">energia média</div></div>
+    <div class="stat-mini"><div class="stat-num">2.1</div><div class="stat-label">dor média</div></div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">Energia ao longo da semana</div>
+    <div class="chart-bars" id="energy-chart"></div>
+  </div>
+
+  <div class="insight-card">
+    <div class="insight-title">✦ Observação desta semana</div>
+    <div class="insight-text">Sua energia foi mais alta nas terças e quintas — dias que você registrou movimento. Continue assim!</div>
+  </div>
+
+  <div style="background:var(--beige-mid);border-radius:14px;padding:16px;text-align:center">
+    <div style="font-size:13px;font-weight:500;margin-bottom:4px">Histórico completo</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Veja toda a sua evolução com o Premium</div>
+    <button class="btn-primary" onclick="showScreen('profile')" style="font-size:13px;padding:10px 20px">Assinar por R$ 24,90/mês</button>
+  </div>
+</div>
+
+<!-- PERFIL / PLANO -->
+<div id="screen-profile" class="screen">
+  <div class="page-title">Meu perfil</div>
+  <div class="page-sub">Ana · ana@email.com</div>
+
+  <div class="plan-current">
+    <div class="plan-current-badge">Plano atual</div>
+    <div style="font-size:18px;font-weight:500;margin-bottom:4px">Gratuito</div>
+    <div style="font-size:13px;color:var(--text-muted)">Perfil: <span class="tag moderado">Moderado</span></div>
+  </div>
+
+  <div class="upgrade-card">
+    <div class="upgrade-title">Desbloqueie o Premium</div>
+    <div class="upgrade-sub">Rotina completa, cardápio semanal, histórico e lembretes personalizados.</div>
+    <div class="upgrade-price">R$ 24,90 <span>/mês</span></div>
+    <button class="btn-upgrade">Assinar agora — cancele quando quiser</button>
+  </div>
+
+  <div class="day-card">
+    <div class="day-card-title">Meu perfil</div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Perfil classificado</span><span class="tag moderado">Moderado</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Nível de atividade</span><span>Pouco ativa</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Intensidade sintomas</span><span>Moderado</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Membro desde</span><span>Abril 2025</span></div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <button class="btn-secondary" style="width:100%" onclick="showScreen('onboarding')">Refazer questionário</button>
+    <button class="btn-secondary" style="width:100%;color:var(--text-muted)">Sair da conta</button>
+  </div>
+</div>
+
+<script>
+const days=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const months=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const now=new Date();
+
+document.getElementById('today-date').textContent=
+  days[now.getDay()]+', '+now.getDate()+' de '+months[now.getMonth()];
+
+const screens=document.querySelectorAll('.screen,.screen-landing');
+const tabs=document.querySelectorAll('.nav-tab');
+function showScreen(id){
+  screens.forEach(s=>s.classList.remove('active'));
+  tabs.forEach(t=>t.classList.remove('active'));
+  const el=document.getElementById('screen-'+id);
+  if(el)el.classList.add('active');
+  const tabMap={home:0,food:1,checkin:2,progress:3,profile:4};
+  if(tabMap[id]!==undefined)tabs[tabMap[id]].classList.add('active');
+  window.scrollTo(0,0);
+}
+
+const actions=[
+  {title:'Hidratação matinal',cat:'Hidratação',catKey:'hidratacao'},
+  {title:'Automassagem nos membros — 5 min',cat:'Autocuidado',catKey:'autocuidado'},
+  {title:'Café da manhã anti-inflamatório',cat:'Alimentação',catKey:'alimentacao'},
+  {title:'Movimento — 25 minutos',cat:'Movimento',catKey:'movimento'},
+  {title:'Almoço equilibrado',cat:'Alimentação',catKey:'alimentacao'},
+  {title:'Check-in do dia',cat:'Autocuidado',catKey:'autocuidado'},
+];
+let done=new Set();
+function renderActions(){
+  const el=document.getElementById('actions-list');
+  el.innerHTML='';
+  actions.forEach((a,i)=>{
+    const isDone=done.has(i);
+    el.innerHTML+=`<div class="action-item" onclick="toggleAction(${i})">
+      <div class="action-check ${isDone?'done':''}">${isDone?'✓':''}</div>
+      <div class="action-info">
+        <div class="action-title ${isDone?'done':''}">${a.title}</div>
+        <div class="action-cat"><span class="action-cat-dot cat-${a.catKey}"></span>${a.cat}</div>
+      </div>
+    </div>`;
+  });
+  const pct=Math.round(done.size/actions.length*100);
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-label').textContent=done.size+' de '+actions.length+' concluídas';
+  document.getElementById('actions-done').textContent=done.size;
+}
+function toggleAction(i){done.has(i)?done.delete(i):done.add(i);renderActions();}
+renderActions();
+
+const evitar=[
+  {name:'Açúcar refinado',why:'Estimula inflamação sistêmica'},
+  {name:'Refrigerantes',why:'Alto teor de sódio — retém líquido'},
+  {name:'Embutidos (presunto, salame)',why:'Sódio e conservantes inflamatórios'},
+  {name:'Frituras',why:'Gordura saturada intensifica inflamação'},
+  {name:'Pão branco industrializado',why:'Alto índice glicêmico'},
+  {name:'Álcool',why:'Piora o acúmulo de líquido nas pernas'},
+  {name:'Molhos prontos (shoyu em excesso)',why:'Extremamente ricos em sódio'},
+  {name:'Salgadinhos de pacote',why:'Sódio elevado, retém líquido rapidamente'},
+  {name:'Leite de vaca integral',why:'Pode intensificar resposta inflamatória'},
+  {name:'Margarina e gordura trans',why:'Pró-inflamatória — evite completamente'},
+];
+const priorizar=[
+  {name:'Frutas vermelhas (mirtilo, morango, amora)',why:'Antioxidantes potentes'},
+  {name:'Salmão e sardinha',why:'Ômega-3 — anti-inflamatório natural'},
+  {name:'Gengibre',why:'Anti-inflamatório e auxilia circulação linfática'},
+  {name:'Cúrcuma (açafrão-da-terra)',why:'Curcumina tem forte ação anti-inflamatória'},
+  {name:'Abacate',why:'Gordura boa, anti-inflamatório'},
+  {name:'Brócolis e couve-flor',why:'Antioxidantes e apoio ao fígado'},
+  {name:'Batata doce',why:'Carboidrato de baixo índice glicêmico'},
+  {name:'Ovos caipiras',why:'Proteína completa, boa fonte de ômega-3'},
+  {name:'Chá de cavalinha',why:'Diurético natural, reduz retenção de líquido'},
+  {name:'Linhaça dourada moída',why:'Ômega-3 vegetal e fibras solúveis'},
+];
+document.getElementById('list-evitar').innerHTML=evitar.map(f=>
+  `<div class="food-item avoid"><div class="food-name">${f.name}</div><div class="food-why">${f.why}</div></div>`).join('');
+document.getElementById('list-priorizar').innerHTML=priorizar.map(f=>
+  `<div class="food-item ok"><div class="food-name">${f.name}</div><div class="food-why">${f.why}</div></div>`).join('');
+
+function foodTab(btn,tab){
+  document.querySelectorAll('.food-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ['evitar','priorizar','refeicoes'].forEach(t=>{
+    document.getElementById('food-'+t).style.display=t===tab?'block':'none';
+  });
+}
+
+const scales={};
+function selectScale(btn,key,val){
+  const parent=btn.parentElement;
+  parent.querySelectorAll('.scale-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  scales[key]=val;
+}
+function submitCheckin(){
+  document.getElementById('checkin-ok').classList.add('show');
+  document.querySelector('.btn-checkin').style.display='none';
+}
+
+const weekDays=['D','S','T','Q','Q','S','S'];
+const weekData=[
+  {state:'done',val:4},{state:'done',val:3},{state:'partial',val:3},
+  {state:'done',val:4},{state:'done',val:4},{state:'done',val:3},
+  {state:'today',val:0}
+];
+const energyVals=[4,3,3,4,4,3,0];
+document.getElementById('prog-week').innerHTML=weekDays.map((d,i)=>`
+  <div class="prog-day">
+    <div class="prog-day-name">${d}</div>
+    <div class="prog-day-circle ${weekData[i].state}">${weekData[i].state==='done'?'✓':weekData[i].state==='partial'?'~':d}</div>
+  </div>`).join('');
+document.getElementById('energy-chart').innerHTML=energyVals.map((v,i)=>`
+  <div class="chart-bar-col">
+    <div class="chart-bar" style="height:${v?v*20:4}px;opacity:${i===6?.3:1}"></div>
+    <div class="chart-bar-label">${weekDays[i]}</div>
+  </div>`).join('');
+
+const obAnswers={};
+function selectOpt(btn,key,val){
+  btn.closest('.ob-options').querySelectorAll('.ob-opt').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  obAnswers[key]=val;
+}
+function obNext(step){
+  document.querySelectorAll('.ob-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById(step==='result'?'ob-result':'ob'+step).classList.add('active');
+  for(let i=1;i<=4;i++) document.getElementById('dot'+i) && (document.getElementById('dot'+i).className='ob-dot'+(i<=step?' done':''));
+}
+function calcProfile(){
+  let pts=0;
+  if(obAnswers.atividade==='sedentaria')pts+=3;
+  else if(obAnswers.atividade==='pouco-ativa')pts+=2;
+  else pts+=1;
+  if(obAnswers.sintomas==='avancado')pts+=3;
+  else if(obAnswers.sintomas==='moderado')pts+=2;
+  else pts+=1;
+  if(obAnswers.cuidados==='nenhum')pts+=2;
+  else if(obAnswers.cuidados==='drenagem'||obAnswers.cuidados==='meia')pts+=1;
+  let profile,desc,icon;
+  if(pts<=4){profile='Perfil Leve';icon='🌱';desc='Sua rotina começa com passos gentis — simples e sustentáveis. Pequenos hábitos consistentes fazem toda a diferença.';document.getElementById('chip-text').textContent='Perfil Leve';}
+  else if(pts<=6){profile='Perfil Moderado';icon='🌿';desc='Sua rotina tem mais estrutura e foco anti-inflamatório. Você vai sentir a diferença com consistência.';document.getElementById('chip-text').textContent='Perfil Moderado';}
+  else{profile='Perfil Avançado';icon='🌺';desc='Sua rotina completa é o que vai fazer a diferença. Mais suporte, mais estrutura, mais cuidado. Você não está sozinha.';document.getElementById('chip-text').textContent='Perfil Avançado';}
+  document.getElementById('result-profile').textContent=profile;
+  document.getElementById('result-desc').textContent=desc;
+  document.getElementById('result-icon').textContent=icon;
+  document.querySelectorAll('.ob-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('ob-result').classList.add('active');
+  for(let i=1;i<=4;i++) document.getElementById('dot'+i).className='ob-dot done';
+}
+</script>
+</body>
+</html>
